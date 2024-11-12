@@ -78,11 +78,3 @@ ollama pull llama2:3b
 pytest tests/
 
 
-This updated README now includes:
-
-1. A mention of the new chatbot feature in the introduction
-2. Added "Interactive Chatbot" to the Features section
-3. Updated the Usage section to include instructions for running the Streamlit app
-4. Updated the Project Structure to include the `app.py` file and the `projects/` directory
-5. Added Streamlit to the acknowledgements
-
