@@ -1,0 +1,8 @@
+jupyter
+pypdf2
+faiss-cpu
+langchain
+langgraph
+transformers
+torch
+streamlit
