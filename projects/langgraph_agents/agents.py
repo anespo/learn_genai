@@ -7,39 +7,46 @@ class AgentState(TypedDict):
     messages: Annotated[Sequence[str], "The messages in the conversation"]
     next: Annotated[str, "The next agent to use"]
 
-def researcher(state):
-    messages = state['messages']
-    llm = ChatOllama(model="llama2:3b")
-    result = llm.invoke(messages + [HumanMessage(content="Act as a researcher and provide relevant information for the given topic.")])
-    return {
-        "messages": messages + [AIMessage(content=f"Researcher: {result.content}")],
-        "next": "writer"
-    }
+def create_researcher(llm):
+    def researcher(state):
+        messages = state['messages']
+        result = llm.invoke(messages + [HumanMessage(content="Act as a researcher and provide relevant information for the given topic.")])
+        return {
+            "messages": messages + [AIMessage(content=f"Researcher: {result.content}")],
+            "next": "writer"
+        }
+    return researcher
 
-def writer(state):
-    messages = state['messages']
-    llm = ChatOllama(model="llama2:3b")
-    result = llm.invoke(messages + [HumanMessage(content="Act as a writer and create a concise summary based on the researcher's information.")])
-    return {
-        "messages": messages + [AIMessage(content=f"Writer: {result.content}")],
-        "next": END
-    }
+def create_writer(llm):
+    def writer(state):
+        messages = state['messages']
+        result = llm.invoke(messages + [HumanMessage(content="Act as a writer and create a concise summary based on the researcher's information.")])
+        return {
+            "messages": messages + [AIMessage(content=f"Writer: {result.content}")],
+            "next": END
+        }
+    return writer
 
-workflow = Graph()
+def create_agent_chain(llm):
+    workflow = Graph()
 
-workflow.add_node("researcher", researcher)
-workflow.add_node("writer", writer)
+    workflow.add_node("researcher", create_researcher(llm))
+    workflow.add_node("writer", create_writer(llm))
 
-workflow.set_entry_point("researcher")
-workflow.add_edge("researcher", "writer")
+    workflow.set_entry_point("researcher")
+    workflow.add_edge("researcher", "writer")
 
-chain = workflow.compile()
+    return workflow.compile()
 
 # Example usage
 if __name__ == "__main__":
+    llm = ChatOllama(model="llama2:3b")
+    chain = create_agent_chain(llm)
+    
     result = chain.invoke({
         "messages": [HumanMessage(content="Explain the importance of renewable energy.")],
         "next": "researcher"
     })
+    
     for message in result['messages']:
         print(message.content)
