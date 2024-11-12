@@ -27,9 +27,14 @@ A comprehensive learning package for Generative AI, featuring practical examples
 1. Clone this repository:
 ```bash
 git clone https://github.com/fbanespo1/learn_genai.git
+
 cd learn_genai
+
 chmod 775 setup.sh #for automatic installation
+./setup.sh
+
 #or manually
+
 python -m venv venv
 
 # On Windows
