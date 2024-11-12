@@ -1,56 +1,63 @@
-# Generative AI Learning Package
+# Generative AI Learning Package v1.0.0
 
-This package is designed to teach generative AI concepts to employees using their laptops. It includes Ollama with the llama2:3b model for text generation and nomic-embed-text for embeddings, along with three example projects demonstrating key concepts in generative AI.
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)]
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)]
 
-## Prerequisites
+A comprehensive learning package for Generative AI, featuring practical examples using local resources. This project demonstrates key concepts in AI development including document summarization, retrieval-augmented generation (RAG), and multi-agent systems.
 
-- Python 3.8+
-- Git
+## 🚀 Features
 
-## Installation
+- **Document Summarizer**: PDF text extraction and intelligent summarization
+- **RAG with FAISS**: Vector-based document retrieval and generation
+- **LangGraph Agents**: Multi-agent system demonstrations
+- **Local Execution**: All examples run locally using Ollama
+
+## 📋 System Requirements
+
+- Python 3.8 or higher
+- RAM: 8GB minimum (16GB recommended)
+- Storage: 5GB free space
+- CPU: 4 cores recommended
+- GPU: Optional, but recommended for better performance
+- Operating System: Windows 10+, macOS 10.15+, or Linux
+
+## 🛠️ Installation
 
 1. Clone this repository:
-```sh
+```bash
 git clone https://github.com/fbanespo1/learn_genai.git
-```
+cd learn_genai
+python -m venv venv
 
-2. Run the setup script:
-```sh
-chmod +x setup.sh ./setup.sh
-```
-
-3. Activate the virtual environment:
-```sh
+# On Windows
+.\venv\Scripts\activate
+# On Unix/MacOS
 source venv/bin/activate
-```
 
+# Verify activation
+which python  # Should point to venv
 
-## Usage
+pip install -r requirements.txt
 
-1. Start Jupyter Notebook:
-
-2. Navigate to the `notebooks/` directory and open the desired notebook:
-- 01_document_summarizer.ipynb
-- 02_rag_with_faiss.ipynb
-- 03_langgraph_agents.ipynb
-
-3. Follow the instructions in each notebook to run the projects and learn about generative AI concepts.
-
-## Project Descriptions
-
-1. Document Summarizer and Chat: Demonstrates how to extract text from PDFs, summarize documents, and create a simple chat interface to interact with document contents.
-
-2. RAG with FAISS: Implements a basic Retrieval-Augmented Generation (RAG) system using FAISS as the vector database for efficient similarity search.
-
-3. Agents with LangGraph: Creates a simple multi-agent system using LangGraph, demonstrating agent communication and task solving.
-
-## Additional Resources
-
-- [Ollama Documentation](https://github.com/jmorganca/ollama)
-- [LangChain Documentation](https://python.langchain.com/en/latest/)
-- [FAISS Documentation](https://github.com/facebookresearch/faiss)
-- [LangGraph Documentation](https://github.com/langchain-ai/langgraph)
-
-## Support
-
-For any questions or issues, please contact [your-email@company.com].
+# Verify installation
+python -c "import langchain, faiss; print('Setup successful!')"
+# Follow Ollama installation instructions for your OS
+ollama pull llama2:3b
+python scripts/verify_setup.py
+jupyter notebook notebooks/01_document_summarizer.ipynb
+learn_genai/
+├── notebooks/
+│   ├── 01_document_summarizer.ipynb
+│   ├── 02_rag_with_faiss.ipynb
+│   └── 03_langgraph_agents.ipynb
+├── data/
+│   └── sample_documents/
+├── scripts/
+│   └── verify_setup.py
+├── requirements.txt
+└── README.md
+# Reset Ollama installation
+ollama rm llama2
+ollama pull llama2:3b
+pytest tests/
