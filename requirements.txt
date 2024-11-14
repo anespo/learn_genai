@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 streamlit
 jupyter
 PyPDF2
@@ -6,3 +7,13 @@ langchain>=0.1.0
 langgraph
 transformers
 torch
+=======
+jupyter
+pypdf2
+faiss-cpu
+langchain
+langgraph
+transformers
+torch
+streamlit
+>>>>>>> 0ffe8c014fd8dd028d766a214e6e7213eea2a3ff

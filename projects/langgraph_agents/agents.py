@@ -1,5 +1,9 @@
 from langgraph.graph import Graph, END
+<<<<<<< HEAD
 from langchain_community.chat_models import ChatOllama
+=======
+from langchain.chat_models import ChatOllama
+>>>>>>> 0ffe8c014fd8dd028d766a214e6e7213eea2a3ff
 from langchain.schema import HumanMessage, AIMessage
 from typing import TypedDict, Annotated, Sequence
 
