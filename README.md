@@ -1,6 +1,4 @@
-Certainly! I'll add instructions for both pip and Poetry installation methods to your README.md. Here's an updated version in English:
 
-```markdown
 # Learn GenAI
 
 A package to learn Generative AI through practical examples.
@@ -81,5 +79,5 @@ If you encounter any issues:
    - With pip: `pip install --upgrade learn_genai`
    - With Poetry: `poetry update learn_genai`
 
-For more detailed information or if you encounter any problems, please refer to our [GitHub repository](https://github.com/yourusername/learn_genai) or open an issue.
+For more detailed information or if you encounter any problems, please refer to our [GitHub repository](https://github.com/fbanespo1/learn_genai) or open an issue.
 ```
