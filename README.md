@@ -6,8 +6,20 @@ A package to learn Generative AI through practical examples.
 
 1. Install Ollama:
    Follow the instructions at [Ollama's official website](https://ollama.ai/) to install Ollama for your operating system.
+   For this project is important download the correct models, because the package is made using those specific models. Please
 
-2. Install the learn_genai package:
+   ```bash
+   ollama pull nomic-embed-text
+   ```
+
+   This is the embedding model for Ollama. Now go for the main model:
+
+   ```bash
+   ollama run llama3.2:3b
+   ```
+   
+   
+3. Install the learn_genai package:
 
 ```bash
 pip install learn_genai
