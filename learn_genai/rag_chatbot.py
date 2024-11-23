@@ -7,6 +7,9 @@ from langchain_community.vectorstores import Chroma
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferMemory
 from langchain_community.llms import Ollama
+import chromadb
+from chromadb.config import Settings
+import os
 
 def fetch_wikipedia_content():
     url = "https://en.wikipedia.org/wiki/Generative_artificial_intelligence"
@@ -15,17 +18,30 @@ def fetch_wikipedia_content():
     content = soup.find(id="mw-content-text").get_text()
     return content
 
+@st.cache_resource
+def load_vectorstore():
+    persist_directory = os.path.join(os.getcwd(), "chroma_db")
+    
+    content = fetch_wikipedia_content()
+    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+    texts = text_splitter.split_text(content)
+    embeddings = OllamaEmbeddings(model="nomic-embed-text:latest")
+    
+    chroma_client = chromadb.Client(Settings(
+        chroma_db_impl="duckdb+parquet",
+        persist_directory=persist_directory
+    ))
+    
+    vectorstore = Chroma.from_texts(
+        texts, 
+        embeddings, 
+        client=chroma_client,
+        collection_name="generative_ai_collection"
+    )
+    return vectorstore
+
 def run_rag_chatbot():
     st.header("RAG Chatbot")
-
-    @st.cache_resource
-    def load_vectorstore():
-        content = fetch_wikipedia_content()
-        text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
-        texts = text_splitter.split_text(content)
-        embeddings = OllamaEmbeddings(model="nomic-embed-text:latest")
-        vectorstore = Chroma.from_texts(texts, embeddings)
-        return vectorstore
 
     vectorstore = load_vectorstore()
     
@@ -43,10 +59,13 @@ def run_rag_chatbot():
 
         with st.chat_message("assistant"):
             chain = ConversationalRetrievalChain.from_llm(
-                llm=Ollama(model="llama3.2:3b"),
+                llm=Ollama(model="llama2:7b"),
                 retriever=vectorstore.as_retriever(),
                 memory=ConversationBufferMemory(memory_key="chat_history", return_messages=True)
             )
             response = chain({"question": prompt})
             st.markdown(response['answer'])
         st.session_state.messages.append({"role": "assistant", "content": response['answer']})
+
+if __name__ == "__main__":
+    run_rag_chatbot()
